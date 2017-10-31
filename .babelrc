@@ -1,0 +1,24 @@
+{
+  "presets": [
+    "stage-0"
+  ],
+  "plugins": [
+    "transform-es3-member-expression-literals",
+    "transform-es3-property-literals"
+  ],
+  "env": {
+    "commonjs": {
+      "presets": [
+        "es2015"
+      ],
+      "plugins": [
+        ["transform-es2015-modules-commonjs", { "loose": true }]
+      ]
+    },
+    "es": {
+      "presets": [
+        ["es2015", { "modules": false }]
+      ]
+    }
+  }
+}
