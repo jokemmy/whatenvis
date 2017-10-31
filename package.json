@@ -1,6 +1,6 @@
 {
   "name": "borwseris",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "browser & os detection",
   "repository": "https://github.com/Syzmex/borwseris.git",
   "keywords": [

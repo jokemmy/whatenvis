@@ -12,7 +12,7 @@ function detect( userAgent ) {
 
 /**
  * 四个层面 系统环境/浏览器环境/移动设备/软件环境
- * 系统：ios/android/macOS/windows
+ * 系统：ios/android/macos/windows
  * 设备：phone/tablet/kindle/pc
  * 浏览器：主流浏览器 ie/chrome/firefox/opera/safari
  * 软件：wechat: ios/android
@@ -24,7 +24,7 @@ export default ( function() {
 
     // 系统检测
     android: match([/android\s([\d.]+)/]),
-    macOS: match([/\(macintosh;\sintel\smac\sos\sx\s([\d_]+)/]),
+    macos: match([/\(macintosh;\sintel\smac\sos\sx\s([\d_]+)/]),
     windows: match([/windows\snt\s([\d.]+)/]),
 
     // 设备检测
@@ -73,7 +73,7 @@ export default ( function() {
   is.androidAlipay = is.android && is.alipay;
 
   // pc
-  is.pc = !is.phone && !is.tablet;
+  is.pc = !is.phone && !is.tablet && !is.kindle;
 
   return is;
 }());
