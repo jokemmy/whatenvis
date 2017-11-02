@@ -7,7 +7,7 @@ import babel from 'rollup-plugin-babel';
 
 const env = process.env.NODE_ENV;
 const config = {
-  name: 'whatitis',
+  name: 'whatenvis',
   input: 'src/index.js',
   plugins: [
     nodeResolve({
