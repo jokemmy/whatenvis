@@ -53,7 +53,7 @@ export default ( function() {
   };
 
   // chrome
-  is.chrome = !!window.chrome && is.chrome;
+  is.chrome = !is.edge && is.chrome;
 
   // 系统
   is.ios = is.ipad || is.iphone; // || is.ipod;
