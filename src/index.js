@@ -52,6 +52,9 @@ export default ( function() {
     alipay: match([/alipayclient\/([\d.]+)/])
   };
 
+  // chrome
+  is.chrome = !!window.chrome && is.chrome;
+
   // 系统
   is.ios = is.ipad || is.iphone; // || is.ipod;
 
@@ -60,7 +63,7 @@ export default ( function() {
   is.windowsTablet = match([/touch/]) && !is.windowsPhone && is.windows;
 
   // 平台
-  is.phone = !!( is.iphone || is.androidPhone || is.windowsPhone || match([/mobile/]));
+  is.phone = !!( is.iphone || is.androidPhone || is.windowsPhone );
   is.tablet = !!( is.ipad || is.androidTablet || is.windowsTablet || match([/tablet/]));
 
   // 浏览器
