@@ -10,6 +10,42 @@ function detect( userAgent ) {
   }, false );
 }
 
+function hasOwnProperty( object, propertyName ) {
+  return Object.prototype.hasOwnProperty.call( object, propertyName );
+}
+
+// 横屏
+function landscape() {
+  if (
+    screen.orientation && hasOwnProperty( window, 'onorientationchange' )
+  ) {
+    return screen.orientation.type.includes( 'landscape' );
+  }
+  return window.innerHeight < window.innerWidth;
+}
+
+// 竖屏
+// function portrait() {
+//   return !landscape();
+// }
+
+function walkOnChangeOrientationList( changeOrientationList, newOrientation ) {
+  for ( let i = 0, l = changeOrientationList.length; i < l; i++ ) {
+    changeOrientationList[i]( newOrientation );
+  }
+}
+
+function handleOrientation( changeOrientationList, resetCache ) {
+  return function() {
+    if ( landscape()) {
+      walkOnChangeOrientationList( changeOrientationList, 'landscape' );
+    } else {
+      walkOnChangeOrientationList( changeOrientationList, 'portrait' );
+    }
+    resetCache();
+  };
+}
+
 /**
  * 四个层面 系统环境/浏览器环境/移动设备/软件环境
  * 系统：ios/android/macos/windows
@@ -18,7 +54,9 @@ function detect( userAgent ) {
  * 软件：wechat: ios/android
  *      alipay: ios/android
  */
+
 export default ( function() {
+  const previousWhatenvis = window.whatenvis;
   const match = detect( navigator.userAgent.toLowerCase());
   const is = {
 
@@ -78,5 +116,37 @@ export default ( function() {
   // pc
   is.pc = !is.phone && !is.tablet && !is.kindle;
 
+  // 移动端
+  if ( is.tablet || is.phone ) {
+    is.landscape = landscape();
+    is.portrait = !is.landscape;
+
+    const changeOrientationList = [];
+    is.onChangeOrientation = function( cb ) {
+      if ( typeof cb === 'function' ) {
+        changeOrientationList.push( cb );
+      }
+    };
+
+    let orientationEvent = 'resize';
+    if ( hasOwnProperty( window, 'onorientationchange' )) {
+      orientationEvent = 'orientationchange';
+    }
+
+    // Listen for changes in orientation.
+    if ( window.addEventListener ) {
+      window.addEventListener( orientationEvent, handleOrientation( changeOrientationList, () => {
+        is.landscape = landscape();
+        is.portrait = !is.landscape;
+      }), false );
+    }
+  }
+
+  is.noConflict = function() {
+    window.whatenvis = previousWhatenvis;
+    return is;
+  };
+
+  window.whatenvis = is;
   return is;
 }());
