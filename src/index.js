@@ -64,6 +64,7 @@ export default ( function() {
     android: match([/android\s([\d.]+)/]),
     macos: match([/\(macintosh;\sintel\smac\sos\sx\s([\d_]+)/]),
     windows: match([/windows\snt\s([\d.]+)/]),
+    ios: match([/\(i[^;]+;( U;)? CPU.+Mac OS X/]),
 
     // 设备检测
     // phone
@@ -71,7 +72,10 @@ export default ( function() {
     // ipod: match([/\(ipod.*os\s([\d_]+)/]),
     iphone: match([/iphone\sos\s([\d_]+)/]),
     windowsPhone: match([/windows\sphone\s([\d.]+)/]),
-    androidPhone: match([/android\s([\d.]+).*mobile.*/]),
+
+    // mobile 两边有空格
+    // 推测安卓平板一般有 mobile 的代表可以插 sim 卡,所以这样判断不准确
+    androidPhone: match([/android\s([\d.]+).*\smobile\s.*/]),
 
     // pad
     kindle: match([/kindle\/([\d.]+)/]),
@@ -90,14 +94,24 @@ export default ( function() {
     alipay: match([/alipayclient\/([\d.]+)/])
   };
 
+  // 小米浏览器兼容
+  // "Mozilla/5.0 (Linux; U; Android 9; zh-cn; MIX 2S Build/PKQ1.180729.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.128 Mobile Safari/537.36 XiaoMi/MiuiBrowser/10.2.2"
+  const adm = match([/android\s.*;\s([^;]*)\sbuild\/.*/]);
+  const admTablet = adm && adm.match( /\spad\s/ );
+  // const xiaomiPhone = xiaomi && !xiaomiTablet;
+
+  // 由于国产安卓阵营的信息比较乱,需要修正
+  is.androidPhone = is.androidPhone && !admTablet;
+
   // chrome
   is.chrome = !is.edge && is.chrome;
 
   // 系统
-  is.ios = is.ipad || is.iphone; // || is.ipod;
+  // is.ios = is.ipad || is.iphone; // || is.ipod;
+  is.safari = !!( is.ios || is.macos || is.windows ) && is.safari;
 
   // pad
-  is.androidTablet = !is.androidPhone && is.android;
+  is.androidTablet = !is.androidPhone && !!is.android;
   is.windowsTablet = match([/touch/]) && !is.windowsPhone && is.windows;
 
   // 平台
