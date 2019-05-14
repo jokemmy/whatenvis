@@ -1,5 +1,8 @@
-**/dist/**
-**/es/**
-**/lib/**
-**/node_modules/**
-**/flow-typed/**
+node_modules
+dist
+public
+script
+es
+build
+lib
+flow-typed

@@ -55,7 +55,7 @@ function handleOrientation( changeOrientationList, resetCache ) {
  *      alipay: ios/android
  */
 
-export default ( function() {
+function factory() {
   const previousWhatenvis = window.whatenvis;
   const match = detect( navigator.userAgent.toLowerCase());
   const is = {
@@ -163,4 +163,17 @@ export default ( function() {
 
   window.whatenvis = is;
   return is;
-}());
+}
+
+const env = { factory };
+
+( function() {
+  try {
+    Object.assign( env, factory());
+    delete env.factory;
+  } catch ( e ) {
+    // 啥也不干
+  }
+})();
+
+export default env;
