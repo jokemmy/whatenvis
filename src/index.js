@@ -57,7 +57,7 @@ function handleOrientation( changeOrientationList, resetCache ) {
 
 function create( global ) {
   const previousWhatenvis = global.whatenvis;
-  const match = detect( navigator.userAgent.toLowerCase());
+  const match = detect( global.navigator.userAgent.toLowerCase());
   const is = {
 
     // 系统检测
@@ -165,11 +165,14 @@ function create( global ) {
   return is;
 }
 
-const env = { create };
+const env = {
+  reCreate( self ) {
+    Object.assign( env, create( self ));
+  }
+};
 
 if ( self === self.window ) {
-  Object.assign( env, create( self ));
-  delete env.create;
+  env.reCreate( self );
 }
 
 export default env;
