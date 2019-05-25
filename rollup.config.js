@@ -15,6 +15,7 @@ const config = {
     format: 'umd',
     file: './dist/whatenvis.js'
   },
+  context: 'this',
   plugins: [
     nodeResolve(),
     babel({

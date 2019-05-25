@@ -21,6 +21,7 @@
     "es"
   ],
   "scripts": {
+    "dev": "cross-env BABEL_ENV=umd NODE_ENV=development rollup -w -c ./examples/rollup.config.dev.js",
     "clean": "rimraf lib dist es coverage",
     "test": "cross-env BABEL_ENV=commonjs jest",
     "test:watch": "npm test -- --watch",
@@ -31,7 +32,7 @@
     "build:umd": "cross-env BABEL_ENV=umd NODE_ENV=development rollup -c -f umd -o dist/whatenvis.js",
     "build:umd:min": "cross-env BABEL_ENV=umd NODE_ENV=production rollup -c -f umd -o dist/whatenvis.min.js",
     "prepare": "npm run clean && npm run lint && npm test && npm run build",
-    "lint": "eslint --ext .js src test",
+    "lint": "eslint --ext .js src",
     "precommit": "npm run lint"
   },
   "dependencies": {},
@@ -66,12 +67,14 @@
     "eslint-config-promise": "^2.0.2",
     "eslint-plugin-import": "^2.17.2",
     "jest": "^24.8.0",
+    "jsdom": "^15.1.0",
     "rimraf": "^2.6.3",
     "rollup": "^1.11.3",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-commonjs": "^9.3.4",
     "rollup-plugin-node-resolve": "^4.2.4",
     "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-uglify": "^6.0.2"
   }
 }

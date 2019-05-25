@@ -17,11 +17,11 @@ function hasOwnProperty( object, propertyName ) {
 // 横屏
 function landscape() {
   if (
-    screen.orientation && hasOwnProperty( window, 'onorientationchange' )
+    screen.orientation && hasOwnProperty( global, 'onorientationchange' )
   ) {
     return screen.orientation.type.includes( 'landscape' );
   }
-  return window.innerHeight < window.innerWidth;
+  return global.innerHeight < global.innerWidth;
 }
 
 // 竖屏
@@ -55,8 +55,8 @@ function handleOrientation( changeOrientationList, resetCache ) {
  *      alipay: ios/android
  */
 
-function factory() {
-  const previousWhatenvis = window.whatenvis;
+function create( global ) {
+  const previousWhatenvis = global.whatenvis;
   const match = detect( navigator.userAgent.toLowerCase());
   const is = {
 
@@ -143,13 +143,13 @@ function factory() {
     };
 
     let orientationEvent = 'resize';
-    if ( hasOwnProperty( window, 'onorientationchange' )) {
+    if ( hasOwnProperty( global, 'onorientationchange' )) {
       orientationEvent = 'orientationchange';
     }
 
     // Listen for changes in orientation.
-    if ( window.addEventListener ) {
-      window.addEventListener( orientationEvent, handleOrientation( changeOrientationList, () => {
+    if ( global.addEventListener ) {
+      global.addEventListener( orientationEvent, handleOrientation( changeOrientationList, () => {
         is.landscape = landscape();
         is.portrait = !is.landscape;
       }), false );
@@ -157,23 +157,19 @@ function factory() {
   }
 
   is.noConflict = function() {
-    window.whatenvis = previousWhatenvis;
+    global.whatenvis = previousWhatenvis;
     return is;
   };
 
-  window.whatenvis = is;
+  global.whatenvis = is;
   return is;
 }
 
-const env = { factory };
+const env = { create };
 
-( function() {
-  try {
-    Object.assign( env, factory());
-    delete env.factory;
-  } catch ( e ) {
-    // 啥也不干
-  }
-})();
+if ( self === self.window ) {
+  Object.assign( env, create( self ));
+  delete env.create;
+}
 
 export default env;
