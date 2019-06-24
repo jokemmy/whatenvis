@@ -1,5 +1,4 @@
 
-
 function detect( userAgent ) {
   return ( regexps ) => regexps.reduce(( version, regexp ) => {
     if ( version === false ) {
@@ -8,42 +7,6 @@ function detect( userAgent ) {
     }
     return version;
   }, false );
-}
-
-function hasOwnProperty( object, propertyName ) {
-  return Object.prototype.hasOwnProperty.call( object, propertyName );
-}
-
-// 横屏
-function landscape() {
-  if (
-    screen.orientation && hasOwnProperty( global, 'onorientationchange' )
-  ) {
-    return screen.orientation.type.includes( 'landscape' );
-  }
-  return global.innerHeight < global.innerWidth;
-}
-
-// 竖屏
-// function portrait() {
-//   return !landscape();
-// }
-
-function walkOnChangeOrientationList( changeOrientationList, newOrientation ) {
-  for ( let i = 0, l = changeOrientationList.length; i < l; i++ ) {
-    changeOrientationList[i]( newOrientation );
-  }
-}
-
-function handleOrientation( changeOrientationList, resetCache ) {
-  return function() {
-    if ( landscape()) {
-      walkOnChangeOrientationList( changeOrientationList, 'landscape' );
-    } else {
-      walkOnChangeOrientationList( changeOrientationList, 'portrait' );
-    }
-    resetCache();
-  };
 }
 
 /**
@@ -55,9 +18,8 @@ function handleOrientation( changeOrientationList, resetCache ) {
  *      alipay: ios/android
  */
 
-function create( global ) {
-  const previousWhatenvis = global.whatenvis;
-  const match = detect( global.navigator.userAgent.toLowerCase());
+function detactor( userAgent ) {
+  const match = detect( userAgent.toLowerCase());
   const is = {
 
     // 系统检测
@@ -130,49 +92,7 @@ function create( global ) {
   // pc
   is.pc = !is.phone && !is.tablet && !is.kindle;
 
-  // 移动端
-  if ( is.tablet || is.phone ) {
-    is.landscape = landscape();
-    is.portrait = !is.landscape;
-
-    const changeOrientationList = [];
-    is.onChangeOrientation = function( cb ) {
-      if ( typeof cb === 'function' ) {
-        changeOrientationList.push( cb );
-      }
-    };
-
-    let orientationEvent = 'resize';
-    if ( hasOwnProperty( global, 'onorientationchange' )) {
-      orientationEvent = 'orientationchange';
-    }
-
-    // Listen for changes in orientation.
-    if ( global.addEventListener ) {
-      global.addEventListener( orientationEvent, handleOrientation( changeOrientationList, () => {
-        is.landscape = landscape();
-        is.portrait = !is.landscape;
-      }), false );
-    }
-  }
-
-  is.noConflict = function() {
-    global.whatenvis = previousWhatenvis;
-    return is;
-  };
-
-  global.whatenvis = is;
   return is;
 }
 
-const env = {
-  reCreate( self ) {
-    Object.assign( env, create( self ));
-  }
-};
-
-if ( self === self.window ) {
-  env.reCreate( self );
-}
-
-export default env;
+export default detactor;

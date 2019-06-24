@@ -9,7 +9,7 @@ import babel from 'rollup-plugin-babel';
 const env = process.env.NODE_ENV;
 
 const config = {
-  input: 'src/index.js',
+  input: 'src/browser.js',
   output: {
     name: 'whatenvis',
     format: 'umd',

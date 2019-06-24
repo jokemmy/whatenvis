@@ -1,13 +1,13 @@
 {
   "name": "whatenvis",
-  "version": "2.0.2",
+  "version": "2.0.4",
   "description": "browser & os detection",
   "repository": "https://github.com/jokemmy/whatenvis.git",
   "keywords": [
     "whatenvis"
   ],
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "main": "lib/browser.js",
+  "module": "es/browser.js",
   "authors": [
     "ZhenyuXu <25213322@qq.com> (https://github.com/jokemmy)"
   ],
@@ -18,7 +18,8 @@
   "files": [
     "dist",
     "lib",
-    "es"
+    "es",
+    "node.js"
   ],
   "scripts": {
     "dev": "cross-env BABEL_ENV=umd NODE_ENV=development rollup -w -c ./examples/rollup.config.dev.js",
