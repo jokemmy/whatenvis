@@ -9,11 +9,11 @@ function hasOwnProperty( object, propertyName ) {
 // 横屏
 function landscape() {
   if (
-    screen.orientation && hasOwnProperty( global, 'onorientationchange' )
+    screen.orientation && hasOwnProperty( window, 'onorientationchange' )
   ) {
     return screen.orientation.type.includes( 'landscape' );
   }
-  return global.innerHeight < global.innerWidth;
+  return window.innerHeight < window.innerWidth;
 }
 
 // 竖屏
@@ -86,4 +86,4 @@ function browser( global ) {
   return is;
 }
 
-export default browser( self );
+export default browser( window );

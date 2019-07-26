@@ -1,3 +1,3 @@
 
-import detector from './lib/node';
-export default detector;
+var detector = require( './lib/node' );
+module.exports = detector;
