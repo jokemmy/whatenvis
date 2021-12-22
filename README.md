@@ -1,4 +1,4 @@
-# WahtEnvIs
+# WhatEnvIs
 
 A simple tool of os and browser detection.
 
