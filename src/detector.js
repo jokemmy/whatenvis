@@ -84,10 +84,10 @@ function detactor( userAgent ) {
   is.safariMobile = ( is.ipad || is.iphone ) && is.safari;
 
   // 软件环境
-  is.iosWechat = is.ios && is.wechat;
-  is.androidWechat = is.android && is.wechat;
-  is.iosAlipay = is.ios && is.alipay;
-  is.androidAlipay = is.android && is.alipay;
+  is.iosWechat = !!is.iphone && !!is.wechat;
+  is.androidWechat = !!is.android && !!is.wechat;
+  is.iosAlipay = !!is.ios && !!is.alipay;
+  is.androidAlipay = !!is.android && !!is.alipay;
 
   // pc
   is.pc = !is.phone && !is.tablet && !is.kindle;
